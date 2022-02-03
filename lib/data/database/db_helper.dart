@@ -60,7 +60,7 @@ abstract class DatabaseHelper {
   }
 
   Future<void> update(
-      Map<String, dynamic> value, String columnName, String columnValue) async {
+      Map<String, dynamic> value, String columnName, int columnValue) async {
     final db = await database;
 
     await db.update(table, value,

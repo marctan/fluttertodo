@@ -13,14 +13,14 @@ class TodoCubit extends Cubit<TodoState> {
   /// Will emit an error if exception occurs. Otherwise emit a success status.
   /// This will notify the UI side
   void addItem(String title, String description) async {
-    emit(const TodoState(status: TodoStatus.addInProgress));
+    emit(const TodoState(status: TodoStatus.addEditInProgress));
     final status = await repository.addItem(title, description);
     status.fold(
       (l) => emit(
         TodoState(status: TodoStatus.error, error: l.error),
       ),
       (r) => emit(
-        const TodoState(status: TodoStatus.addSuccess),
+        const TodoState(status: TodoStatus.addEditSuccess),
       ),
     );
   }
@@ -36,6 +36,21 @@ class TodoCubit extends Cubit<TodoState> {
       ),
       (r) => emit(
         TodoState(status: TodoStatus.querySuccess, todos: r),
+      ),
+    );
+  }
+
+  /// Will emit an error if exception occurs. Otherwise emit a success status.
+  /// This will notify the UI side
+  void updateItem(String title, String description, int id) async {
+    emit(const TodoState(status: TodoStatus.addEditInProgress));
+    final status = await repository.updateItem(title, description, id);
+    status.fold(
+      (l) => emit(
+        TodoState(status: TodoStatus.error, error: l.error),
+      ),
+      (r) => emit(
+        const TodoState(status: TodoStatus.addEditSuccess),
       ),
     );
   }

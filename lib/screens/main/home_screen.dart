@@ -41,7 +41,9 @@ class _HomeState extends State<Home> {
             context,
             MaterialPageRoute(
               builder: (_) {
-                return const AddEditScreen();
+                return const AddEditScreen(
+                  isEdit: false,
+                );
               },
             ),
           );

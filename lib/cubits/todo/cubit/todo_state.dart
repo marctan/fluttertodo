@@ -2,8 +2,8 @@ part of 'todo_cubit.dart';
 
 enum TodoStatus {
   initial,
-  addInProgress,
-  addSuccess,
+  addEditInProgress,
+  addEditSuccess,
   queryInProgress,
   querySuccess,
   error,

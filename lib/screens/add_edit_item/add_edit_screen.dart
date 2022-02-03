@@ -3,9 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertodo/cubits/todo/cubit/todo_cubit.dart';
+import 'package:fluttertodo/data/models/todo.dart';
 
 class AddEditScreen extends StatefulWidget {
-  const AddEditScreen({Key? key}) : super(key: key);
+  const AddEditScreen({this.item, required this.isEdit, Key? key})
+      : super(key: key);
+
+  final bool isEdit;
+  final Todo? item;
 
   @override
   State<AddEditScreen> createState() => _AddEditScreenState();
@@ -18,6 +23,8 @@ class _AddEditScreenState extends State<AddEditScreen> {
   late TodoCubit cubit;
 
   void _submitForm() {
+    FocusScope.of(context).unfocus();
+
     bool isValid = _key.currentState?.validate() ?? false;
 
     //if form has error then don't add the item to the database
@@ -26,7 +33,9 @@ class _AddEditScreenState extends State<AddEditScreen> {
     }
 
     _key.currentState?.save();
-    cubit.addItem(itemTitle, itemDescription);
+    widget.isEdit
+        ? cubit.updateItem(itemTitle, itemDescription, widget.item?.id ?? 0)
+        : cubit.addItem(itemTitle, itemDescription);
   }
 
   @override
@@ -49,10 +58,11 @@ class _AddEditScreenState extends State<AddEditScreen> {
         listener: (context, state) {
           final progress = ProgressHUD.of(context);
 
-          if (state.status == TodoStatus.addInProgress) {
+          if (state.status == TodoStatus.addEditInProgress) {
             //show progress while saving an item
-            progress?.showWithText('Adding Item...');
-          } else if (state.status == TodoStatus.addSuccess) {
+            progress?.showWithText(
+                widget.isEdit ? 'Updating Item...' : 'Adding Item...');
+          } else if (state.status == TodoStatus.addEditSuccess) {
             progress?.dismiss();
             Navigator.pop(context);
           } else if (state.status == TodoStatus.error) {
@@ -74,7 +84,7 @@ class _AddEditScreenState extends State<AddEditScreen> {
             ),
           ),
           appBar: AppBar(
-            title: const Text('Add/Edit Item'),
+            title: Text(widget.isEdit ? 'Edit Item' : 'Add Item'),
           ),
           body: Container(
             padding: const EdgeInsets.only(
@@ -136,6 +146,8 @@ class _AddEditScreenState extends State<AddEditScreen> {
                               vertical: 10,
                             ),
                             child: TextFormField(
+                              initialValue:
+                                  widget.isEdit ? widget.item?.title : '',
                               cursorColor: Colors.indigo,
                               onSaved: (value) {
                                 itemTitle = value ?? '';
@@ -158,6 +170,8 @@ class _AddEditScreenState extends State<AddEditScreen> {
                               vertical: 10,
                             ),
                             child: TextFormField(
+                              initialValue:
+                                  widget.isEdit ? widget.item?.description : '',
                               cursorColor: Colors.indigo,
                               onSaved: (value) {
                                 itemDescription = value ?? '';

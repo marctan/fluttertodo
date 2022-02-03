@@ -28,4 +28,23 @@ class TodoLocalDataSourceImpl implements TodoLocalDataSource {
       rethrow;
     }
   }
+
+  @override
+  Future<void> updateItem(String title, String description, int id) async {
+    try {
+      final todoDb = serviceLocator<TodoDatabase>();
+      Map<String, dynamic> item = {
+        TodoDatabase.itemName: title,
+        TodoDatabase.itemDescription: description,
+      };
+
+      await todoDb.update(
+        item,
+        TodoDatabase.columnId,
+        id,
+      );
+    } catch (error) {
+      rethrow;
+    }
+  }
 }

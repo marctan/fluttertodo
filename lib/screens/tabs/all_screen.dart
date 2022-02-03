@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertodo/cubits/todo/cubit/todo_cubit.dart';
+import 'package:fluttertodo/screens/add_edit_item/add_edit_screen.dart';
 
 class AllScreen extends StatefulWidget {
   const AllScreen({Key? key}) : super(key: key);
@@ -29,7 +30,7 @@ class _AllScreenState extends State<AllScreen> {
                 content: Text('Error! : ${state.error}'),
               ),
             );
-          } else if (state.status == TodoStatus.addSuccess) {
+          } else if (state.status == TodoStatus.addEditSuccess) {
             cubit.queryAllItem();
           }
         },
@@ -49,6 +50,19 @@ class _AllScreenState extends State<AllScreen> {
                       return Column(
                         children: [
                           ListTile(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) {
+                                    return AddEditScreen(
+                                      isEdit: true,
+                                      item: todo,
+                                    );
+                                  },
+                                ),
+                              );
+                            },
                             title: Text(todo.title),
                             subtitle: Text(todo.description),
                           ),
