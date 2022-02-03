@@ -9,6 +9,8 @@ class TodoCubit extends Cubit<TodoState> {
 
   final TodoRepository repository;
 
+  /// Will emit an error if exception occurs. Otherwise emit a success status.
+  /// This will notify the UI side
   void addItem(String title, String description) async {
     emit(const TodoState(status: TodoStatus.loading));
     final status = await repository.addItem(title, description);

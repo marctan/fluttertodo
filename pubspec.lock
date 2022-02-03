@@ -111,6 +111,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
+  flutter_progress_hud:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "103a28c655e4e61adeeabd9055b3015347589a44"
+      url: "https://github.com/franciscrispin/flutter_progress_hud.git"
+    source: git
+    version: "2.0.0"
   flutter_svg:
     dependency: "direct main"
     description:

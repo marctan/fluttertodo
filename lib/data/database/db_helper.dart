@@ -4,8 +4,8 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-//we are creating this abstract class helper so that 
-//if we want to create a new database, we can just extend this class and inherit its methods.
+/// We are creating this abstract class helper so that 
+/// If we want to create a new database, we can just extend this class and inherit its methods.
 abstract class DatabaseHelper {
   final String _databaseName;
   final _databaseVersion = 1;

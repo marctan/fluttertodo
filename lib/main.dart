@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertodo/cubits/bottom_tab/cubit/bottom_tab_cubit.dart';
+import 'package:fluttertodo/cubits/todo/cubit/todo_cubit.dart';
 import 'package:fluttertodo/screens/main/home_screen.dart';
 import 'package:fluttertodo/service_locator/service_locator.dart';
 import 'package:fluttertodo/util/constants.dart';
@@ -15,8 +16,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => serviceLocator<BottomTabCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => serviceLocator<BottomTabCubit>(),
+        ),
+        BlocProvider(
+          create: (_) => serviceLocator<TodoCubit>(),
+        ),
+      ],
       child: MaterialApp(
         home: const Home(),
         theme: ThemeData(
