@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertodo/cubits/bottom_tab/cubit/bottom_tab_cubit.dart';
 import 'package:fluttertodo/screens/main/home_screen.dart';
+import 'package:fluttertodo/service_locator/service_locator.dart';
 import 'package:fluttertodo/util/constants.dart';
 
 void main() {
+  setupServiceLocator();
   runApp(const MyApp());
 }
 
@@ -11,17 +15,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: const Home(),
-      theme: ThemeData(
-        primaryColor: Constants.PRIMARY_COLOR,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Constants.PRIMARY_COLOR,
+    return BlocProvider(
+      create: (_) => serviceLocator<BottomTabCubit>(),
+      child: MaterialApp(
+        home: const Home(),
+        theme: ThemeData(
+          primaryColor: Constants.PRIMARY_COLOR,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Constants.PRIMARY_COLOR,
+          ),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: Constants.PRIMARY_COLOR,
+          ),
+          fontFamily: 'Montserrat',
         ),
-        floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          backgroundColor: Constants.PRIMARY_COLOR,
-        ),
-        fontFamily: 'Montserrat',
       ),
     );
   }

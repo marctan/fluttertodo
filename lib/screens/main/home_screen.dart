@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertodo/cubits/bottom_tab/cubit/bottom_tab_cubit.dart';
 import 'package:fluttertodo/screens/add_edit_item/add_edit_screen.dart';
 import 'package:fluttertodo/screens/tabs/all_screen.dart';
 import 'package:fluttertodo/screens/tabs/complete_screen.dart';
 import 'package:fluttertodo/screens/tabs/incomplete_screen.dart';
+import 'package:fluttertodo/util/constants.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -12,18 +15,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _selectedIndex = 0;
+  late BottomTabCubit cubit;
 
-  final _bottomBody = [
-    const AllScreen(),
-    const CompleteScreen(),
-    const IncompleteScreen()
-  ];
-
-  _itemBarTapped(index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  @override
+  void initState() {
+    cubit = context.read<BottomTabCubit>();
+    super.initState();
   }
 
   @override
@@ -60,37 +57,56 @@ class _HomeState extends State<Home> {
           padding: EdgeInsets.only(
             right: deviceSize.width * 0.15,
           ),
-          child: BottomNavigationBar(
-            currentIndex: _selectedIndex,
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.grey,
-            onTap: _itemBarTapped,
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.today_outlined,
-                ),
-                label: 'All',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.check_box_outlined,
-                ),
-                label: 'Complete',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.disabled_by_default_outlined,
-                ),
-                label: 'Incomplete',
-              )
-            ],
+          child: BlocBuilder<BottomTabCubit, BottomTabState>(
+            builder: (context, state) {
+              return BottomNavigationBar(
+                currentIndex: state.index.index,
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                selectedItemColor: Colors.white,
+                unselectedItemColor: Colors.grey,
+                onTap: (index) => cubit.switchTab(TabView.values[index]),
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.today_outlined,
+                    ),
+                    label: 'All',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.check_box_outlined,
+                    ),
+                    label: 'Complete',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.disabled_by_default_outlined,
+                    ),
+                    label: 'Incomplete',
+                  )
+                ],
+              );
+            },
           ),
         ),
       ),
-      body: _bottomBody[_selectedIndex],
+      body: BlocBuilder<BottomTabCubit, BottomTabState>(
+        builder: (context, state) {
+          if (state.status == BottomTabStatus.switched) {
+            switch (state.index) {
+              case TabView.all:
+                return const AllScreen();
+              case TabView.complete:
+                return const CompleteScreen();
+
+              case TabView.incomplete:
+                return const IncompleteScreen();
+            }
+          }
+          return const AllScreen();
+        },
+      ),
     );
   }
 }
