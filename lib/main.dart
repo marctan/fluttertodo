@@ -18,6 +18,9 @@ class MyApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(
           backgroundColor: Constants.PRIMARY_COLOR,
         ),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: Constants.PRIMARY_COLOR,
+        ),
         fontFamily: 'Montserrat',
       ),
     );

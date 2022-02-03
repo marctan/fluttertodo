@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertodo/screens/add_edit_item/add_edit_screen.dart';
 import 'package:fluttertodo/screens/tabs/all_screen.dart';
 import 'package:fluttertodo/screens/tabs/complete_screen.dart';
 import 'package:fluttertodo/screens/tabs/incomplete_screen.dart';
@@ -27,38 +28,67 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
           'Todo App',
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(
+          Icons.add,
+        ),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) {
+                return const AddEditScreen();
+              },
+            ),
+          );
+        },
         backgroundColor: Theme.of(context).primaryColor,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.grey,
-        onTap: _itemBarTapped,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.today_outlined,
-            ),
-            label: 'All',
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      bottomNavigationBar: BottomAppBar(
+        color: Theme.of(context).primaryColor,
+        elevation: 0,
+        shape: const CircularNotchedRectangle(),
+        child: Padding(
+          padding: EdgeInsets.only(
+            right: deviceSize.width * 0.15,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.check_box_outlined,
-            ),
-            label: 'Complete',
+          child: BottomNavigationBar(
+            currentIndex: _selectedIndex,
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.grey,
+            onTap: _itemBarTapped,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.today_outlined,
+                ),
+                label: 'All',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.check_box_outlined,
+                ),
+                label: 'Complete',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.disabled_by_default_outlined,
+                ),
+                label: 'Incomplete',
+              )
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.disabled_by_default_outlined,
-            ),
-            label: 'Incomplete',
-          )
-        ],
+        ),
       ),
       body: _bottomBody[_selectedIndex],
     );
