@@ -49,13 +49,13 @@ class _AddEditScreenState extends State<AddEditScreen> {
         listener: (context, state) {
           final progress = ProgressHUD.of(context);
 
-          if (state.status == TodoStatus.loading) {
+          if (state.status == TodoStatus.addInProgress) {
             //show progress while saving an item
             progress?.showWithText('Adding Item...');
-          } else if (state.status == TodoStatus.loaded) {
+          } else if (state.status == TodoStatus.addSuccess) {
             progress?.dismiss();
             Navigator.pop(context);
-          } else {
+          } else if (state.status == TodoStatus.error) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text('Error: ${state.error}'),
