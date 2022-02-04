@@ -9,6 +9,8 @@ It uses technologies below:
 - Unit Test using Mockito
 - SQLite
 
+## APK
+[app-release.apk.zip](https://github.com/marctan/fluttertodo/files/8002607/app-release.apk.zip)
 
 ## Screenshot
 
@@ -28,4 +30,6 @@ It uses technologies below:
   
 ## Run Lint
   flutter analyze
+  
+
   
