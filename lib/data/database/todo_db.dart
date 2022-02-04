@@ -1,4 +1,5 @@
 import 'package:fluttertodo/data/database/db_helper.dart';
+import 'package:fluttertodo/util/constants.dart';
 import 'package:sqflite/sqflite.dart';
 
 class TodoDatabase extends DatabaseHelper {
@@ -38,5 +39,15 @@ class TodoDatabase extends DatabaseHelper {
 
     _database = await super.initDatabase();
     return _database!;
+  }
+
+  Future<List> queryItemByStatus(StatusVal statusVal) async {
+    final db = await database;
+    List items = await db.rawQuery(
+      'SELECT * FROM $table where $itemStatus = ?',
+      [statusVal.index],
+    );
+
+    return items;
   }
 }

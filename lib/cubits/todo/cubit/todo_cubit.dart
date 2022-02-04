@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fluttertodo/data/models/todo.dart';
 import 'package:fluttertodo/data/repositories/repositories.dart';
+import 'package:fluttertodo/util/constants.dart';
 
 part 'todo_state.dart';
 
@@ -79,6 +80,22 @@ class TodoCubit extends Cubit<TodoState> {
         List<Todo> todos = List.of(state.todos);
         todos.removeWhere((element) => element.id == id);
         emit(state.copyWith(status: TodoStatus.success, todos: todos));
+      },
+    );
+  }
+
+  /// Will emit an error if exception occurs. Otherwise emit a success status.
+  /// This will notify the UI side
+  void queryByStatus(StatusVal val) async {
+    emit(state.copyWith(status: TodoStatus.queryInProgress));
+
+    final status = await repository.queryItemByStatus(val);
+    status.fold(
+      (l) => emit(
+        state.copyWith(status: TodoStatus.error, error: l.error),
+      ),
+      (r) {
+        emit(state.copyWith(status: TodoStatus.success, todos: r));
       },
     );
   }

@@ -3,6 +3,7 @@ import 'package:fluttertodo/data/datasources/datasources.dart';
 import 'package:fluttertodo/data/models/failure.dart';
 import 'package:fluttertodo/data/models/todo.dart';
 import 'package:fluttertodo/data/repositories/repositories.dart';
+import 'package:fluttertodo/util/constants.dart';
 
 class TodoRepositoryImpl implements TodoRepository {
   TodoRepositoryImpl({
@@ -14,8 +15,7 @@ class TodoRepositoryImpl implements TodoRepository {
   final TodoRemoteDataSource remoteDataSource;
 
   @override
-  Future<Either<Failure, int>> addItem(
-      String title, String description) async {
+  Future<Either<Failure, int>> addItem(String title, String description) async {
     try {
       return Right(
         await localDataSource.addItem(
@@ -59,6 +59,19 @@ class TodoRepositoryImpl implements TodoRepository {
   Future<Either<Failure, void>> deleteItem(int id) async {
     try {
       return Right(await localDataSource.deleteItem(id));
+    } catch (error) {
+      return Left(
+        Failure(
+          error: error.toString(),
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Todo>>> queryItemByStatus(StatusVal val) async {
+    try {
+      return Right(await localDataSource.queryByStatus(val));
     } catch (error) {
       return Left(
         Failure(

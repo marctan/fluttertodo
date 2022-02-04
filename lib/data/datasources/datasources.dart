@@ -1,4 +1,5 @@
 import 'package:fluttertodo/data/models/todo.dart';
+import 'package:fluttertodo/util/constants.dart';
 
 abstract class TodoLocalDataSource {
   /// Use to add an item into the local database
@@ -16,6 +17,10 @@ abstract class TodoLocalDataSource {
   /// Use to delete an item from the local database
   /// Will throw an exception if error occured
   Future<void> deleteItem(int id);
+
+  /// Use to query incomplete or complete item from the local database
+  /// Will throw an exception if error occured
+  Future<List<Todo>> queryByStatus(StatusVal val);
 }
 
 abstract class TodoRemoteDataSource {
