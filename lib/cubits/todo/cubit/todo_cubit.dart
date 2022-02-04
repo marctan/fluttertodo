@@ -95,7 +95,12 @@ class TodoCubit extends Cubit<TodoState> {
         state.copyWith(status: TodoStatus.error, error: l.error),
       ),
       (r) {
-        emit(state.copyWith(status: TodoStatus.success, todos: r));
+        val == StatusVal.complete
+            ? emit(state.copyWith(
+                status: TodoStatus.queryCompletedItemsSuccess,
+                todos: r,
+              ))
+            : emit(state.copyWith(status: TodoStatus.success, todos: r));
       },
     );
   }

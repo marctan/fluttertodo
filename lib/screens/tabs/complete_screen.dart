@@ -34,12 +34,17 @@ class _CompleteScreenState extends State<CompleteScreen> {
             );
           }
         },
+        buildWhen: (prev, current) {
+          /// don't rebuild this screen when we are adding new item
+          return prev.status != current.status &&
+              current.status == TodoStatus.queryCompletedItemsSuccess;
+        },
         builder: (context, state) {
           if (state.status == TodoStatus.queryInProgress) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (state.status == TodoStatus.success) {
+          } else if (state.status == TodoStatus.queryCompletedItemsSuccess) {
             return state.todos.isEmpty
                 ? const Center(
                     child: Text('You haven\'t completed any items!'),
