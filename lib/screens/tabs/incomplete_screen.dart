@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertodo/components/todo_item_widget.dart';
 import 'package:fluttertodo/cubits/todo/cubit/todo_cubit.dart';
 import 'package:fluttertodo/util/constants.dart';
 
@@ -45,22 +46,15 @@ class _IncompleteScreenState extends State<IncompleteScreen> {
                   )
                 : ListView.builder(
                     padding: const EdgeInsets.only(
+                      top: 20,
+                      left: 20,
+                      right: 20,
                       bottom: kFloatingActionButtonMargin + 30,
                     ),
                     itemBuilder: (_, index) {
                       final todo = state.todos[index];
-                      return Column(
-                        children: [
-                          ListTile(
-                            title: Text(todo.title),
-                            subtitle: Text(todo.description),
-                          ),
-                          const Divider(
-                            height: 1,
-                            thickness: 0.7,
-                            color: Colors.black38,
-                          ),
-                        ],
+                      return TodoItemWidget(
+                        item: todo,
                       );
                     },
                     itemCount: state.todos.length,
