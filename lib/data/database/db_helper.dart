@@ -49,7 +49,7 @@ abstract class DatabaseHelper {
     return val;
   }
 
-  Future<void> remove(String value, String columnName) async {
+  Future<void> remove(int value, String columnName) async {
     final db = await database;
 
     await db.delete(

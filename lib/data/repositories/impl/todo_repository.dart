@@ -54,4 +54,17 @@ class TodoRepositoryImpl implements TodoRepository {
       return Left(Failure(error: error.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> deleteItem(int id) async {
+    try {
+      return Right(await localDataSource.deleteItem(id));
+    } catch (error) {
+      return Left(
+        Failure(
+          error: error.toString(),
+        ),
+      );
+    }
+  }
 }

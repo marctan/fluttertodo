@@ -18,4 +18,8 @@ abstract class TodoRepository {
     String description,
     int id,
   );
+
+  /// Use to delete an item from the local database.
+  /// If there's an exception it will return a Failure Object, otherwise return List of Todo items
+  Future<Either<Failure, void>> deleteItem(int id);
 }

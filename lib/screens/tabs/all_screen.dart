@@ -32,6 +32,13 @@ class _AllScreenState extends State<AllScreen> {
             );
           } else if (state.status == TodoStatus.addEditSuccess) {
             cubit.queryAllItem();
+          } else if (state.status == TodoStatus.deleteSuccess) {
+            cubit.queryAllItem();
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Delete success!'),
+              ),
+            );
           }
         },
         builder: (context, state) {
@@ -63,6 +70,59 @@ class _AllScreenState extends State<AllScreen> {
                                 ),
                               );
                             },
+                            trailing: BlocBuilder<TodoCubit, TodoState>(
+                              builder: (context, state) {
+                                return IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (_) {
+                                        return AlertDialog(
+                                          title: const Text(
+                                            'Delete this item?',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text(
+                                                'No',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                ),
+                                              ),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                cubit.deleteItem(todo.id);
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text(
+                                                'Yes',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  color: Colors.red.shade900,
+                                );
+                              },
+                            ),
                             title: Text(todo.title),
                             subtitle: Text(todo.description),
                           ),

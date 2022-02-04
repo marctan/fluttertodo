@@ -54,4 +54,19 @@ class TodoCubit extends Cubit<TodoState> {
       ),
     );
   }
+
+  /// Will emit an error if exception occurs. Otherwise emit a success status.
+  /// This will notify the UI side
+  void deleteItem(int id) async {
+    emit(const TodoState(status: TodoStatus.deleteInProgress));
+    final status = await repository.deleteItem(id);
+    status.fold(
+      (l) => emit(
+        TodoState(status: TodoStatus.error, error: l.error),
+      ),
+      (r) => emit(
+        const TodoState(status: TodoStatus.deleteSuccess),
+      ),
+    );
+  }
 }

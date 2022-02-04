@@ -12,6 +12,10 @@ abstract class TodoLocalDataSource {
   /// Use to update an item from the local database
   /// Will throw an exception if error occured
   Future<void> updateItem(String title, String description, int id);
+
+  /// Use to delete an item from the local database
+  /// Will throw an exception if error occured
+  Future<void> deleteItem(int id);
 }
 
 abstract class TodoRemoteDataSource {

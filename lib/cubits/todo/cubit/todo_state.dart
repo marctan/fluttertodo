@@ -6,6 +6,8 @@ enum TodoStatus {
   addEditSuccess,
   queryInProgress,
   querySuccess,
+  deleteInProgress,
+  deleteSuccess,
   error,
 }
 
