@@ -19,7 +19,7 @@ It uses technologies below:
   
 ## Run app
 
-  flutter pub get
+  flutter pub get <br>
   flutter run
   
 ## Build app
