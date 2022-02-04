@@ -71,4 +71,19 @@ class TodoLocalDataSourceImpl implements TodoLocalDataSource {
       rethrow;
     }
   }
+
+  @override
+  Future<void> updateItemStatus(int id, StatusVal val) async {
+    try {
+      Map<String, dynamic> item = {TodoDatabase.itemStatus: val.index};
+
+      await todoDb.update(
+        item,
+        TodoDatabase.columnId,
+        id,
+      );
+    } catch (error) {
+      rethrow;
+    }
+  }
 }

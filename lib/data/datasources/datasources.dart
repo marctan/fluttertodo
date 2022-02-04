@@ -21,6 +21,10 @@ abstract class TodoLocalDataSource {
   /// Use to query incomplete or complete item from the local database
   /// Will throw an exception if error occured
   Future<List<Todo>> queryByStatus(StatusVal val);
+
+  /// Use to update status of the item from the local database
+  /// Will throw an exception if error occured
+  Future<void> updateItemStatus(int id, StatusVal val);
 }
 
 abstract class TodoRemoteDataSource {

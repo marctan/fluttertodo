@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertodo/cubits/todo/cubit/todo_cubit.dart';
 import 'package:fluttertodo/screens/add_edit_item/add_edit_screen.dart';
+import 'package:fluttertodo/util/constants.dart';
 
 class AllScreen extends StatefulWidget {
   const AllScreen({Key? key}) : super(key: key);
@@ -51,6 +52,26 @@ class _AllScreenState extends State<AllScreen> {
                       return Column(
                         children: [
                           ListTile(
+                            leading: Checkbox(
+                              activeColor: Colors.indigo,
+                              side: MaterialStateBorderSide.resolveWith(
+                                (states) => const BorderSide(
+                                  width: 1.5,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              value: todo.status == StatusVal.complete.index
+                                  ? true
+                                  : false,
+                              onChanged: (val) {
+                                cubit.updateItemStatus(
+                                  todo.id,
+                                  ((val ?? false) == true)
+                                      ? StatusVal.complete
+                                      : StatusVal.incomplete,
+                                );
+                              },
+                            ),
                             onTap: () {
                               Navigator.push(
                                 context,

@@ -80,4 +80,17 @@ class TodoRepositoryImpl implements TodoRepository {
       );
     }
   }
+
+  @override
+  Future<Either<Failure, void>> updateItemStats(int id, StatusVal val) async {
+    try {
+      return Right(await localDataSource.updateItemStatus(id, val));
+    } catch (error) {
+      return Left(
+        Failure(
+          error: error.toString(),
+        ),
+      );
+    }
+  }
 }

@@ -34,8 +34,11 @@ class _AddEditScreenState extends State<AddEditScreen> {
 
     _key.currentState?.save();
     widget.isEdit
-        ? cubit.updateItem(itemTitle, itemDescription, widget.item?.id ?? 0,
-            widget.item?.status ?? 0)
+        ? cubit.updateItem(
+            itemTitle,
+            itemDescription,
+            widget.item?.id ?? 0,
+          )
         : cubit.addItem(itemTitle, itemDescription);
   }
 

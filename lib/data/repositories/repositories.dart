@@ -27,4 +27,8 @@ abstract class TodoRepository {
   /// Use to query item status from the local database. It's either complete or incomplete.
   /// If there's an exception it will return a Failure Object, otherwise return List of Todo items
   Future<Either<Failure, List<Todo>>> queryItemByStatus(StatusVal val);
+
+  /// Use to update the status of item from the local database.
+  /// If there's an exception it will return a Failure Object, otherwise return List of Todo items
+  Future<Either<Failure, void>> updateItemStats(int id, StatusVal val);
 }
