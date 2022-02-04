@@ -34,7 +34,8 @@ class _AddEditScreenState extends State<AddEditScreen> {
 
     _key.currentState?.save();
     widget.isEdit
-        ? cubit.updateItem(itemTitle, itemDescription, widget.item?.id ?? 0)
+        ? cubit.updateItem(itemTitle, itemDescription, widget.item?.id ?? 0,
+            widget.item?.status ?? 0)
         : cubit.addItem(itemTitle, itemDescription);
   }
 
@@ -62,7 +63,7 @@ class _AddEditScreenState extends State<AddEditScreen> {
             //show progress while saving an item
             progress?.showWithText(
                 widget.isEdit ? 'Updating Item...' : 'Adding Item...');
-          } else if (state.status == TodoStatus.addEditSuccess) {
+          } else if (state.status == TodoStatus.success) {
             progress?.dismiss();
             Navigator.pop(context);
           } else if (state.status == TodoStatus.error) {

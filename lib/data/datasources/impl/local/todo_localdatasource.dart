@@ -7,13 +7,13 @@ class TodoLocalDataSourceImpl implements TodoLocalDataSource {
   final todoDb = serviceLocator<TodoDatabase>();
 
   @override
-  Future<void> addItem(String title, String description) async {
+  Future<int> addItem(String title, String description) async {
     try {
       Map<String, dynamic> item = {
         TodoDatabase.itemName: title,
         TodoDatabase.itemDescription: description,
       };
-      await todoDb.add(item);
+      return await todoDb.add(item);
     } catch (error) {
       rethrow;
     }

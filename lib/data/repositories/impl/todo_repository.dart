@@ -14,7 +14,7 @@ class TodoRepositoryImpl implements TodoRepository {
   final TodoRemoteDataSource remoteDataSource;
 
   @override
-  Future<Either<Failure, void>> addItem(
+  Future<Either<Failure, int>> addItem(
       String title, String description) async {
     try {
       return Right(

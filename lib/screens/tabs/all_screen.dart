@@ -30,15 +30,6 @@ class _AllScreenState extends State<AllScreen> {
                 content: Text('Error! : ${state.error}'),
               ),
             );
-          } else if (state.status == TodoStatus.addEditSuccess) {
-            cubit.queryAllItem();
-          } else if (state.status == TodoStatus.deleteSuccess) {
-            cubit.queryAllItem();
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Delete success!'),
-              ),
-            );
           }
         },
         builder: (context, state) {
@@ -46,12 +37,15 @@ class _AllScreenState extends State<AllScreen> {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (state.status == TodoStatus.querySuccess) {
+          } else if (state.status == TodoStatus.success) {
             return state.todos.isEmpty
                 ? const Center(
                     child: Text('No Items!'),
                   )
                 : ListView.builder(
+                    padding: const EdgeInsets.only(
+                      bottom: kFloatingActionButtonMargin + 30,
+                    ),
                     itemBuilder: (_, index) {
                       final todo = state.todos[index];
                       return Column(
